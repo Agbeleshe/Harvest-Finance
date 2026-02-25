@@ -7,7 +7,13 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { OrdersModule } from './orders/orders.module';
 import { HealthModule } from './health/health.module';
+<<<<<<< HEAD
 import { VerificationModule } from './verification/verification.module';
+=======
+import { DatabaseModule } from './database/database.module';
+import { User, Order, Transaction, Verification, CreditScore } from './database/entities';
+import { CreateInitialSchema1700000000000 } from './database/migrations/1700000000000-CreateInitialSchema';
+>>>>>>> 5bb2c01b633283a4a5f2bbbcd6d6c2600c5ae3a4
 
 @Module({
   imports: [
@@ -23,8 +29,11 @@ import { VerificationModule } from './verification/verification.module';
         username: configService.get<string>('DB_USER'),
         password: configService.get<string>('DB_PASSWORD'),
         database: configService.get<string>('DB_NAME'),
-        autoLoadEntities: true,
-        synchronize: true, // Auto synchronize for development
+        entities: [User, Order, Transaction, Verification, CreditScore],
+        migrations: [CreateInitialSchema1700000000000],
+        synchronize: false, // Disable auto-sync, use migrations
+        migrationsRun: false, // Run migrations manually
+        logging: configService.get<string>('NODE_ENV') === 'development',
       }),
       inject: [ConfigService],
     }),
@@ -46,7 +55,11 @@ import { VerificationModule } from './verification/verification.module';
     }),
     HealthModule,
     OrdersModule,
+<<<<<<< HEAD
     VerificationModule,
+=======
+    DatabaseModule,
+>>>>>>> 5bb2c01b633283a4a5f2bbbcd6d6c2600c5ae3a4
   ],
   controllers: [AppController],
   providers: [AppService],
